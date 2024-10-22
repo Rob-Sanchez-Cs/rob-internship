@@ -26,9 +26,6 @@
     right: 15px;
   }
   
-  .arrow--disabled {
-    fill: rgba(255, 255, 255, 0.5);
-  }
 
   .skeleton {
     background-color: lightgray;
@@ -59,5 +56,9 @@
     flex-direction: column;
     align-items: center;
     justify-content:center;
+  }
+
+  .nft__container {
+    padding: 8px;
   }
   

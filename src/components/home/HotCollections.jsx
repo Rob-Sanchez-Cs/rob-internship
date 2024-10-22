@@ -1,27 +1,69 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import nftImage from "../../images/nftImage.jpg";
 import axios from "axios";
-import { useKeenSlider } from "keen-slider/react";
-import "keen-slider/keen-slider.min.css";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import "../../css/HotCollections.css";
 
 const HotCollections = () => {
+  const [carouselData, setCarouselData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  async function fetchHotCollectionsData() {
+    const response = await axios.get(
+      "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
+    );
+    setCarouselData(response.data);
+    console.log(response.data);
+    setLoading(false);
+  }
 
-  const [loaded, setLoaded] = useState(false);
-  const [options, setOptions] = useState({})
-  const [sliderRef, instanceRef] = useKeenSlider({
-    slides: {
-      perView: 4,
-    },
-    loop: true,
-    created() {
-      setLoaded(true);
-    },
-  });
+  useEffect(() => {
+    setLoading(true);
+    fetchHotCollectionsData();
+  }, []);
+
+  const slider = useRef(null);
+
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          infinite: true,
+          speed: 500,
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 1024,
+        settings: {
+          infinite: true,
+          speed: 500,
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 500,
+        settings: {
+          infinite: true,
+          speed: 500,
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ]
+  };
 
   function Arrow(props) {
     const disabled = props.disabled ? " arrow--disabled" : "";
@@ -50,45 +92,6 @@ const HotCollections = () => {
     );
   }
 
-  const [carouselData, setCarouselData] = useState([]);
-  const [loading, setLoading] = useState(true)
-  
-
-  async function fetchHotCollectionsData() {
-    const response = await axios.get(
-      "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
-    );
-    setCarouselData(response.data);
-    setLoading(false)
-
-  }
-
-  useEffect(() => {
-    setLoading(true)
-    setOptions({
-      slides: {
-        perView: 4,
-      },
-      loop: true,
-      created() {
-        setLoaded(true)
-      },
-    })
-    fetchHotCollectionsData();
-    
-
-    return () => {
-      setOptions({})
-    }
-  }, []);
-
-  useEffect(() => {
-    instanceRef.current?.update({...options})
-  }, [options, instanceRef])
-
-  
-
-
   return (
     <section id="section-collections" className="no-bottom">
       <div className="container">
@@ -101,11 +104,11 @@ const HotCollections = () => {
           </div>
 
           <div className="navigation-wrapper">
-            <div ref={sliderRef} className="keen-slider">
-              {carouselData.length === 0 
-                ? new Array(8).fill(0).map((item, index) => (
+            <Slider ref={slider} {...settings}>
+            {carouselData.length === 0 
+                ? new Array(6).fill(0).map((item, index) => (
                     <div
-                      className="keen-slider__slide col-lg-3 col-md-6 col-sm-6 col-xs-12"
+                      className="nft__container"
                       key={index}
                     >
                       
@@ -118,7 +121,7 @@ const HotCollections = () => {
                           <i className="fa fa-check"></i>
                         </div>
                         <div className="nft_coll_info skeleton__box">
-                            <h4 className="skeleton__title"></h4>
+                            <div className="skeleton__title"></div>
                           <div className="skeleton__sub-title"></div>
                         </div>
                       </div>
@@ -126,7 +129,7 @@ const HotCollections = () => {
                   ))
                 : carouselData.map((item, index) => (
                     <div
-                      className="keen-slider__slide col-lg-3 col-md-6 col-sm-6 col-xs-12"
+                      className="nft__container"
                       key={item.id}
                     >
                       
@@ -159,24 +162,19 @@ const HotCollections = () => {
                       </div>
                     </div>
                   ))}
-            </div>
-
-            {loaded && instanceRef.current && (
-              <>
-                <Arrow
+            </Slider>
+            <Arrow
                   left
                   onClick={(e) =>
-                    e.stopPropagation()||console.log(carouselData) || instanceRef.current?.prev()
+                    e.stopPropagation()|| slider?.current?.slickPrev()
                   }
                 />
 
                 <Arrow
                   onClick={(e) =>
-                    e.stopPropagation() || instanceRef.current?.next()
+                    e.stopPropagation() || slider?.current?.slickNext()
                   }
                 />
-              </>
-            )}
           </div>
         </div>
       </div>
