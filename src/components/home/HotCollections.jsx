@@ -18,7 +18,6 @@ const HotCollections = () => {
       "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
     );
     setCarouselData(response.data);
-    console.log(response.data);
     setLoading(false);
   }
 
