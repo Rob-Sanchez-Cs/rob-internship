@@ -6,6 +6,8 @@ import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Countdown from 'react-countdown';
+
 
 import "../../css/NewItems.css";
 
@@ -163,7 +165,7 @@ const NewItems = () => {
                           <i className="fa fa-check"></i>
                         </Link>
                       </div>
-                      <div className="de_countdown">5h 30m 32s</div>
+                      {item.expiryDate && <div className="de_countdown"><Countdown date={item.expiryDate} /></div>}
 
                       <div className="nft__item_wrap">
                         <div className="nft__item_extra">
