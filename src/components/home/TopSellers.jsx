@@ -8,7 +8,7 @@ import "../../css/TopSellers.css"
 const TopSellers = () => {
   async function fetchTopSellerData(){
     const response = await axios.get("https://us-central1-nft-cloud-functions.cloudfunctions.net/topSellers");
-    console.log(response.data);
+
     setTopSellerData(response.data);
     setLoading(false)
   }
