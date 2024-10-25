@@ -53,6 +53,7 @@ const NewItems = () => {
     ],
   };
 
+
   async function fetchNewItemsData() {
     const response = await axios.get(
       "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"
@@ -106,10 +107,21 @@ const NewItems = () => {
           <Slider className="new-items__slider" ref={slider} {...settings}>
             {loading
               ? new Array(4).fill(0).map((_, index) => (
-                  <SkeletonNFTCard index={index} inSlider={true}/>
+                  <SkeletonNFTCard index={index} key={index} inSlider={true}/>
                 ))
               : carouselData.map((item, index) => (
-                  <NFTCard item={item} index={index} inSlider={true} />
+                <NFTCard 
+                key={index}
+                authorId={item.authorId} 
+                authorImage={item.authorImage} 
+                expiryDate={undefined} 
+                nftId={item.nftId} 
+                nftImage={item.nftImage} 
+                title={item.title} 
+                price={item.price} 
+                likes={item.likes} 
+                index={index} 
+                inSlider={true} />
                 ))}
           </Slider>
           <div className="new-items__arrows--container">
