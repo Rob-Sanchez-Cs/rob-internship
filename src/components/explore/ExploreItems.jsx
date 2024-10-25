@@ -11,6 +11,7 @@ const ExploreItems = () => {
   async function fetchExploreData(numberClicks) {
     const response = await axios.get(filterValue === "" ? "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore" : `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=${filterValue}`);
     setExploreData(response.data.slice(0,8 + (numberClicks * 4)))
+    console.log(response.data)
     setLoading(false)
   }
 
@@ -56,7 +57,18 @@ const ExploreItems = () => {
       {loading ? (new Array(8).fill(0).map((_, index) => (
         <SkeletonNFTCard index={index} key={index} inSlider={false} />
       ))): (exploreData.map((item, index) => (
-        <NFTCard item={item} index={index} key={index} inSlider={false}/>
+        <NFTCard 
+            key={index}
+            authorId={item.authorId} 
+            authorImage={item.authorImage} 
+            expiryDate={undefined} 
+            nftId={item.nftId} 
+            nftImage={item.nftImage} 
+            title={item.title} 
+            price={item.price} 
+            likes={item.likes} 
+            index={index} 
+            inSlider={false} />
       )))}
       {numBtnClicks < 2 ? (<div className="col-md-12 text-center">
         <Link to="" onClick={() => handleBtnClick()} id="loadmore" className="btn-main lead">
