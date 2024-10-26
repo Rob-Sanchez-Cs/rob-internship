@@ -2,10 +2,15 @@ import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import axios from "axios";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
+
 
 import "../../css/TopSellers.css"
 
 const TopSellers = () => {
+  AOS.init()
   async function fetchTopSellerData(){
     const response = await axios.get("https://us-central1-nft-cloud-functions.cloudfunctions.net/topSellers");
 
@@ -25,7 +30,7 @@ const TopSellers = () => {
   
 
   return (
-    <section id="section-popular" className="pb-5">
+    <section data-aos="fade" data-aos-duration="1000" data-aos-delay="250" id="section-popular" className="pb-5">
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
