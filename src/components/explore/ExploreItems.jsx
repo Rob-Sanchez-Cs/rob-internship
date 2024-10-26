@@ -11,7 +11,7 @@ const ExploreItems = () => {
   async function fetchExploreData(numberClicks) {
     const response = await axios.get(filterValue === "" ? "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore" : `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=${filterValue}`);
     setExploreData(response.data.slice(0,8 + (numberClicks * 4)))
-    console.log(response.data)
+
     setLoading(false)
   }
 
