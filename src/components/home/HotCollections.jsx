@@ -6,10 +6,13 @@ import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 import "../../css/HotCollections.css";
 
 const HotCollections = () => {
+  AOS.init();
   const [carouselData, setCarouselData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -92,7 +95,7 @@ const HotCollections = () => {
   }
 
   return (
-    <section id="section-collections" className="no-bottom">
+    <section data-aos="fade" data-aos-duration="1000" data-aos-delay="50" id="section-collections" className="no-bottom">
       <div className="container">
         <div className="row">
           <div className="col-lg-12">

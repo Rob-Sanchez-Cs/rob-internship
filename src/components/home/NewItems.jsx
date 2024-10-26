@@ -7,6 +7,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Countdown from 'react-countdown';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 
 import "../../css/NewItems.css";
@@ -14,6 +16,7 @@ import NFTCard from "../UI/NFTCard";
 import SkeletonNFTCard from "../UI/SkeletonNFTCard";
 
 const NewItems = () => {
+  AOS.init()
   const [carouselData, setCarouselData] = useState([]);
   const [loading, setLoading] = useState(true);
   const slider = useRef(null);
@@ -95,7 +98,7 @@ const NewItems = () => {
   }, []);
 
   return (
-    <section id="section-items" className="no-bottom">
+    <section data-aos="fade" data-aos-duration="1000" data-aos-delay="50" id="section-items" className="no-bottom">
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
