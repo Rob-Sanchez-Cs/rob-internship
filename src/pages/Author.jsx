@@ -24,6 +24,7 @@ const Author = () => {
   const [following, setFollowing] = useState(false);
 
   useEffect(() => {
+
     fetchAuthorData();
 
     return () => {
